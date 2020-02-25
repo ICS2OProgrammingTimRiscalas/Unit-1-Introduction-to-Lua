@@ -30,6 +30,10 @@ myRectangle.anchorY = 0
 myRectangle.x = 20
 myRectangle.y = 20
 
+
+
+
+
 -- set the width of the border
 myRectangle.strokeWidth = 15
 

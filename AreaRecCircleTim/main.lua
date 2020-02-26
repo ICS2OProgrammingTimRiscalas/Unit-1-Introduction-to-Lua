@@ -80,9 +80,9 @@ areaText = display.newText("The area of this circle with a radius of \n" ..
 	radiusOfCircle .. " is " .. areaOfCircle .. " pixels².", 0, 0, Lobster, textSize)
 -- anchor the text and set its (x,y) position
 areaText.anchorX = 0
-areaText.anchorY = 10
+areaText.anchorY = 12
 areaText.x = 40
-areaText.y = display.contentHeight/2
+areaText.y = display.contentHeight/1.2
 
 -- set the colour of the new text
 areaText:setTextColor( 1, 1, 1)

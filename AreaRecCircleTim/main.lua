@@ -14,6 +14,10 @@ local myRectangle
 local widthOfRectangle = 300
 local heightOfRectangle = 100
 local areaOfRectangle 
+local PI = 3.14
+local areaOfCircle
+local radiusOfCircle = 20
+local myCircle
 
 -- set the background colour of my screen.
 display.setDefault("background", 28/255, 162/255, 176/255)
@@ -30,10 +34,6 @@ myRectangle.anchorY = 0
 myRectangle.x = 20
 myRectangle.y = 20
 
-
-
-
-
 -- set the width of the border
 myRectangle.strokeWidth = 15
 
@@ -46,16 +46,43 @@ myRectangle:setStrokeColor(0.5, 0.3, 0.7)
 -- calculate the area
 areaOfRectangle = widthOfRectangle * heightOfRectangle
 
--- write the area on the screenn. Take into consideration the size of the font when positioning it on the screen
+-- write the area on the screen. Take into consideration the size of the font when positioning it on the screen
 areaText = display.newText("The area of this rectangle with a width of \n" ..
 widthOfRectangle .. " and a height of " .. heightOfRectangle .. " is " ..
-areaOfRectangle .. "pixels².", 0, 0 , Lobster, textSize)
+areaOfRectangle .. " pixels².", 0, 0 , Lobster, textSize)
+
 -- anchor the text and set its (x,y) position
 areaText.anchorX = 0
 areaText.anchorY = 0
 areaText.x = 20
 areaText.y = display.contentHeight/2
 
--- set the colour of the newText
+-- set the colour of the new text
 areaText:setTextColor(1, 1, 1)
 
+-- display the circle
+myCircle = display.newCircle( 400, 75, 50)
+
+--set the width of the border
+myCircle.strokeWidth = 10
+
+-- set the color of the circle
+myCircle:setFillColor( 195/255, 9/255, 9/255)
+
+-- set the color of the border
+myCircle:setStrokeColor( 255/255, 102/255, 0/255)
+
+-- calculate the area
+areaOfCircle = PI * radiusOfCircle
+
+-- write the area on the screen
+areaText = display.newText("The area of this circle with a radius of \n" ..
+	radiusOfCircle .. " is " .. areaOfCircle .. " pixels².", 0, 0, Lobster, textSize)
+-- anchor the text and set its (x,y) position
+areaText.anchorX = 0
+areaText.anchorY = 10
+areaText.x = 40
+areaText.y = display.contentHeight/2
+
+-- set the colour of the new text
+areaText:setTextColor( 1, 1, 1)

@@ -8,7 +8,6 @@
 -- Your code here
 
 -- create my local variables
-local areaText
 local textSize = 20
 local myRectangle
 local widthOfRectangle = 300

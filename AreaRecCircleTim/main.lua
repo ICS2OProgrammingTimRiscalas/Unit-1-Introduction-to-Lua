@@ -8,7 +8,7 @@
 -- Your code here
 
 -- create my local variables
-local areaText
+local areaTextRectangle
 local textSize = 20
 local myRectangle
 local widthOfRectangle = 300
@@ -18,6 +18,7 @@ local PI = 3.14
 local areaOfCircle
 local radiusOfCircle = 20
 local myCircle
+local areaTextCircle
 
 -- set the background colour of my screen.
 display.setDefault("background", 28/255, 162/255, 176/255)
@@ -47,18 +48,18 @@ myRectangle:setStrokeColor(0.5, 0.3, 0.7)
 areaOfRectangle = widthOfRectangle * heightOfRectangle
 
 -- write the area on the screen. Take into consideration the size of the font when positioning it on the screen
-areaText = display.newText("The area of this rectangle with a width of \n" ..
+areaTextRectangle = display.newText("The area of this rectangle with a width of \n" ..
 widthOfRectangle .. " and a height of " .. heightOfRectangle .. " is " ..
 areaOfRectangle .. " pixels².", 0, 0 , Lobster, textSize)
 
 -- anchor the text and set its (x,y) position
-areaText.anchorX = 0
-areaText.anchorY = 0
-areaText.x = 20
-areaText.y = display.contentHeight/2
+areaTextRectangle.anchorX = 0
+areaTextRectangle.anchorY = 0
+areaTextRectangle.x = 20
+areaTextRectangle.y = display.contentHeight/2
 
 -- set the colour of the new text
-areaText:setTextColor(1, 1, 1)
+areaTextRectangle:setTextColor(1, 1, 1)
 
 -- display the circle
 myCircle = display.newCircle( 400, 75, 50)
@@ -73,16 +74,16 @@ myCircle:setFillColor( 195/255, 9/255, 9/255)
 myCircle:setStrokeColor( 255/255, 102/255, 0/255)
 
 -- calculate the area
-areaOfCircle = PI * radiusOfCircle
+areaOfCircle = PI * radiusOfCircle * radiusOfCircle
 
 -- write the area on the screen
-areaText = display.newText("The area of this circle with a radius of \n" ..
+areaTextCircle = display.newText("The area of this circle with a radius of \n" ..
 	radiusOfCircle .. " is " .. areaOfCircle .. " pixels².", 0, 0, Lobster, textSize)
 -- anchor the text and set its (x,y) position
-areaText.anchorX = 0
-areaText.anchorY = 12
-areaText.x = 40
-areaText.y = display.contentHeight/1.2
+areaTextCircle.anchorX = 0
+areaTextCircle.anchorY = 12
+areaTextCircle.x = 40
+areaTextCircle.y = display.contentHeight/1.2
 
 -- set the colour of the new text
-areaText:setTextColor( 1, 1, 1)
+areaTextCircle:setTextColor( 1, 1, 1)

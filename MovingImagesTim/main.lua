@@ -61,7 +61,9 @@ local function MoveOctopus(event)
 	-- add the scroll speed to the x-value of the ship
 	octopus.x = octopus.x - scrollSpeedOctopus
 	-- change the transparency of the ship every time it moves so that it fades out
-	octopus.alpha = octopus.alpha - 0.01    
+	octopus.alpha = octopus.alpha - 0.0001  
+	-- make the octopus grow in size
+	octopus:scale(1.003, 1.003)
 end
 
 -- MoveOctopus will be called over and over again

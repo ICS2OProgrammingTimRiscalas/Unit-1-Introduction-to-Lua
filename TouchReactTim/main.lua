@@ -67,7 +67,7 @@ end
 -- Function: RedButtonListener
 -- Input: touch listener
 -- Output: none
--- Description: when blue button is clicked, it will make the text appear with the red button ND checkmark 
+-- Description: when blue button is clicked, it will make the text appear with the red button and the checkmark 
 -- and make the blue button disappear
 local function RedButtonListener(event)
 	if (event.phase == "began") then

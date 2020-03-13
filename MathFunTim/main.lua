@@ -45,6 +45,7 @@ local function AskQuestion()
 	-- generate a random number between 1 and 2
 	-- *** MAKE SURE TO DECLARE THIS VARIABLE ABOVE
 	randomOperator = math.random(1,4) 
+	randomOperator = 3
 
 	-- generate 2 random numbers between a max. and a min. number
 	randomNumber1 = math.random(0, 8)
@@ -53,7 +54,7 @@ local function AskQuestion()
 	-- if the randomOperator is 1, then do addition
 	if (randomOperator == 1) then
 
-		if (randomNumber1 =< 0) then
+		if (randomNumber1 <= 0) or (randomNumber2 <= 0) then
 			AskQuestion()
 		end
 
@@ -70,7 +71,7 @@ local function AskQuestion()
 		end
 
 
-		if (randomNumber1 =< 0) then
+		if (randomNumber1 <= 0) or (randomNumber2 <= 0)then
 			AskQuestion()
 		end
 
@@ -85,16 +86,21 @@ local function AskQuestion()
 	-- otherwise, if the random operator is 2, do subtraction
 	elseif (randomOperator == 3) then
 		
-		if (randomNumber1 =< 0) then
+		if (randomNumber1 <= 0) or (randomNumber2 <= 0) then
 			AskQuestion()
 		end
 
 
 		-- calculate the correct answer
 		correctAnswer = randomNumber1 / randomNumber2
-
-		-- round the number to one decimal place
-		print(math.round( 0.1))
+		print("***correctAnswer = ".. correctAnswer)
+		-- round to the nearest tenth
+		correctAnswer = correctAnswer * 10
+		print("***correctAnswer = ".. correctAnswer)
+		correctAnswer = math.round(correctAnswer)
+		print("***correctAnswer = ".. correctAnswer)
+		correctAnswer = correctAnswer / 10
+		print("***correctAnswer = ".. correctAnswer)
 
 		-- create question in text object
 		questionObject.text = randomNumber1 .. " / " .. randomNumber2 .. " ="
@@ -102,7 +108,7 @@ local function AskQuestion()
 	-- otherwise, if the random operator = 4, do multiplication
 	elseif (randomOperator == 4) then
 
-		if (randomNumber1 =< 0) then
+		if (randomNumber1 <= 0)  or (randomNumber2 <= 0)then
 			AskQuestion()
 		end
 
@@ -181,7 +187,7 @@ local function NumericFieldListener( event)
 
 			-- update it in the display object
 			incorrectPointsText.text = "Times Wrong = " .. incorrectPoints
-			timer.performWithDelay(2000, HideIncorrect)
+			timer.performWithDelay(3000, HideIncorrect)
 
 			-- if the user gets the wrong answer 3 times:
 			if (incorrectPoints == 3) then
@@ -213,29 +219,30 @@ end
 questionObject = display.newText("", display.contentWidth/3, display.contentHeight * 2/3, nil, 60)
 questionObject:setTextColor(60/255, 185/255, 51/255)
 questionObject.isVisible = true
+AskQuestion()
 
 -- create the correct text object and make it invisible
 correctObject = display.newText("Correct!", display.contentWidth/1.4, display.contentHeight * 2/3, nil, 50)
 correctObject:setTextColor(66/255, 226/255, 26/255)
 correctObject.isVisible = false
 
--- create the incorrect text object and make it invisible
-incorrectObject = display.newText("Sorry,that's incorrect! Try again!", display.contentWidth/2, display.contentHeight/3, nil, 50)
-incorrectObject:setTextColor(226/255, 26/255, 26/255)
-incorrectObject.isVisible = false
-
 -- create numeric field
 numericTextFields = native.newTextField( display.contentWidth/2, display.contentHeight * 2/3, 150, 100)
 numericTextFields.inputType = "number"
+-- add the event listener for the numeric field
+numericTextFields:addEventListener("userInput", NumericFieldListener)
+
+-- create the incorrect text object and make it invisible
+incorrectObject = display.newText("Sorry,that's incorrect! The correct answer is\n" .. 
+	correctAnswer .. ". Try again!", display.contentWidth/2, display.contentHeight/3, nil, 50)
+incorrectObject:setTextColor(226/255, 26/255, 26/255)
+incorrectObject.isVisible = false
 
 -- display the amount of points as a text object
 pointsText = display.newText("Points = " .. points, display.contentWidth/1.2, display.contentHeight/7, nil, 50)
 
 -- display the amount of incorrect points as a text object
 incorrectPointsText = display.newText("Times Wrong = " .. incorrectPoints, display.contentWidth/1.32, display.contentHeight/4.5, nil, 50)
-
--- add the event listener for the numeric field
-numericTextFields:addEventListener("userInput", NumericFieldListener)
 
 -- create the youWin text object and make it visible
 youWin = display.newText("YOU WIN!", display.contentWidth/2, display.contentHeight/3, nil, 75)
@@ -247,4 +254,3 @@ gameOver = display.newText("GAME OVER", display.contentWidth/2, display.contentH
 gameOver:setTextColor(198/255, 13/255, 19/255)
 gameOver.isVisible = false
 
-AskQuestion()

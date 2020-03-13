@@ -2,7 +2,7 @@
 -- Title: NumericTextFields
 -- Name:  Tim 
 -- Course: ICS2O
--- This program displays a math question and asks the user to answer in a numeric textfield.
+-- This program displays a math question and asks the user to answer in a numeric textfield. It also has a score system.
 -----------------------------------------------------------------------------------------
 
 -- hide the status bar
@@ -49,17 +49,28 @@ local function HideCorrect()
 	AskQuestion()
 end
 
-local function HideIncorrect()
-	incorrectObject.isVisible = false
-	AskQuestion()
-end
-
 local function HideYouWin()
 	youWin.isVisible = false
 end
 
 local function HideGameOver()
 	gameOver.isVisible = false
+end
+
+local function HideIncorrect()
+	incorrectObject.isVisible = false
+	if (incorrectObject.isVisible == false) and (incorrectPoints == 3) then
+		gameOver.isVisible = true
+		-- clear points to 0 after losing
+		incorrectPoints = 0
+		points = 0
+		incorrectPointsText.text = "Times Wrong = " .. incorrectPoints 
+		pointsText.text = "Points = " .. points
+		timer.performWithDelay(3000)
+		timer.performWithDelay(3000, HideGameOver)
+		timer.performWithDelay(3500, AskQuestion)
+	end
+	AskQuestion()
 end
 
 local function NumericFieldListener( event)
@@ -103,33 +114,24 @@ local function NumericFieldListener( event)
 
 		-- inside the else means they got it wrong
 		else
+			incorrectObject.text = "Sorry, that's incorrect! The correct answer is \n" .. 
+	 		correctAnswer .. ". Try again!"
 			incorrectObject.isVisible = true
+
 
 			-- give a point to incorrectPoints if user gets the wrong answer
 			incorrectPoints = incorrectPoints + 1
 
 			-- update it in the display object
 			incorrectPointsText.text = "Times Wrong = " .. incorrectPoints
-			timer.performWithDelay(2000, HideIncorrect)
+			timer.performWithDelay(3000, HideIncorrect)
 
 			-- if the user gets the wrong answer 3 times:
 			if (incorrectPoints == 3) then
-				gameOver.isVisible = true
-				incorrectObject.isVisible = false
-
-				-- clear points to 0 after losing
-				incorrectPoints = 0
-				points = 0
-				incorrectPointsText.text = "Times Wrong = " .. incorrectPoints 
-				pointsText.text = "Points = " .. points
-				timer.performWithDelay(3000, HideGameOver)
-				timer.performWithDelay(3500, AskQuestion)
+				incorrectObject.isVisible = true
+				timer.performWithDelay(2000, HideIncorrect)
 			end
-
 		end
-		
-
-
 		event.target.text = ""
 	end
 end
@@ -143,13 +145,15 @@ questionObject = display.newText("", display.contentWidth/3, display.contentHeig
 questionObject:setTextColor(60/255, 185/255, 51/255)
 questionObject.isVisible = true
 
+AskQuestion()
+
 -- create the correct text object and make it invisible
 correctObject = display.newText("Correct!", display.contentWidth/1.4, display.contentHeight * 2/3, nil, 50)
 correctObject:setTextColor(66/255, 226/255, 26/255)
 correctObject.isVisible = false
 
 -- create the incorrect text object and make it invisible
-incorrectObject = display.newText("Sorry,that's incorrect! Try again!", display.contentWidth/2, display.contentHeight/3, nil, 50)
+incorrectObject = display.newText("", display.contentWidth/2, display.contentHeight/3, nil, 50)
 incorrectObject:setTextColor(226/255, 26/255, 26/255)
 incorrectObject.isVisible = false
 
@@ -175,5 +179,3 @@ youWin.isVisible = false
 gameOver = display.newText("GAME OVER", display.contentWidth/2, display.contentHeight/2, nil, 75)
 gameOver:setTextColor(198/255, 13/255, 19/255)
 gameOver.isVisible = false
-
-AskQuestion()

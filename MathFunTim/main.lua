@@ -36,6 +36,23 @@ local youWin
 local incorrectPoints = 0
 local gameOver
 local randomOperator
+local randomNumber3
+
+-------------------------------------------------------------------------------------------
+-- SOUNDS
+-------------------------------------------------------------------------------------------
+
+-- background sound
+local backgroundSound = audio.loadSound("Sounds/background sound.mp3") -- setting a variable to the mp3 file
+local backgroundSoundChannel
+
+-- corrrect sound
+local correctSound = audio.loadSound("Sounds/correct sound.mp3") -- setting a variable to the mp3 file 
+local correctSoundChannel
+
+-- wrong sound
+local wrongSound = audio.loadSound("Sounds/wrong sound.mp3") -- setting a variable to the mp3 file 
+local wrongSoundChannel
 
 -------------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -45,7 +62,8 @@ local function AskQuestion()
 	-- generate a random number between 1 and 2
 	-- *** MAKE SURE TO DECLARE THIS VARIABLE ABOVE
 	randomOperator = math.random(1,4) 
-	randomOperator = 3
+	backgroundSoundChannel = audio.play(backgroundSound,{loops = -1})
+
 
 	-- generate 2 random numbers between a max. and a min. number
 	randomNumber1 = math.random(0, 8)
@@ -90,20 +108,15 @@ local function AskQuestion()
 			AskQuestion()
 		end
 
+		randomNumber3 = randomNumber1 * randomNumber2
+
 
 		-- calculate the correct answer
-		correctAnswer = randomNumber1 / randomNumber2
-		print("***correctAnswer = ".. correctAnswer)
-		-- round to the nearest tenth
-		correctAnswer = correctAnswer * 10
-		print("***correctAnswer = ".. correctAnswer)
-		correctAnswer = math.round(correctAnswer)
-		print("***correctAnswer = ".. correctAnswer)
-		correctAnswer = correctAnswer / 10
+		correctAnswer = randomNumber3 / randomNumber2
 		print("***correctAnswer = ".. correctAnswer)
 
 		-- create question in text object
-		questionObject.text = randomNumber1 .. " / " .. randomNumber2 .. " ="
+		questionObject.text = randomNumber3 .. " / " .. randomNumber2 .. " ="
 
 	-- otherwise, if the random operator = 4, do multiplication
 	elseif (randomOperator == 4) then
@@ -155,6 +168,7 @@ local function NumericFieldListener( event)
 		-- if the user's answer and the correct answer are the same:
 		if (userAnswer == correctAnswer) then
 			correctObject.isVisible = true
+			correctSoundChannel = audio.play(correctSound)
 			incorrectObject.isVisible = false
 			youWin.isVisible = false
 			timer.performWithDelay(1500, HideCorrect)
@@ -181,7 +195,10 @@ local function NumericFieldListener( event)
 		-- inside the else means they got it wrong
 		else
 			incorrectObject.isVisible = true
-
+			wrongSoundChannel = audio.play(wrongSound)
+			incorrectObject.text = "Sorry,that's incorrect! The correct answer is\n" .. 
+			correctAnswer .. ". Try again!"
+			
 			-- give a point to incorrectPoints if user gets the wrong answer
 			incorrectPoints = incorrectPoints + 1
 
@@ -233,8 +250,7 @@ numericTextFields.inputType = "number"
 numericTextFields:addEventListener("userInput", NumericFieldListener)
 
 -- create the incorrect text object and make it invisible
-incorrectObject = display.newText("Sorry,that's incorrect! The correct answer is\n" .. 
-	correctAnswer .. ". Try again!", display.contentWidth/2, display.contentHeight/3, nil, 50)
+incorrectObject = display.newText("", display.contentWidth/2, display.contentHeight/3, nil, 50)
 incorrectObject:setTextColor(226/255, 26/255, 26/255)
 incorrectObject.isVisible = false
 
@@ -253,4 +269,4 @@ youWin.isVisible = false
 gameOver = display.newText("GAME OVER", display.contentWidth/2, display.contentHeight/2, nil, 75)
 gameOver:setTextColor(198/255, 13/255, 19/255)
 gameOver.isVisible = false
-
+AskQuestion()

@@ -11,6 +11,10 @@
 -- hide the status bar
 display.setStatusBar(display.HiddenStatusBar)
 
+local backgroundSound = audio.loadSound("Sounds/background sound.mp3") -- setting a variable to the mp3 file
+local backgroundSoundChannel = audio.play(backgroundSound,{loops = -1})
+
+
 -- global variables
 scrollSpeedBeetleship = 3.5
 scrollSpeedOctopus = 4.0

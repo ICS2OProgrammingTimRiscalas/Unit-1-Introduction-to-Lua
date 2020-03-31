@@ -175,9 +175,15 @@ local function UpdateTime()
 end
 
 -- function that call the timer 
-local function StartTimer()
+local function StartTimer(event)
 	-- create a countdown timer that loops infinitely
 	countdownTimer = timer.performWithDelay(1000, UpdateTime, 0)
+end
+
+local function StopSounds()
+	-- stop all sounds after winning or losing
+	audio.stop(youWinSoundChannel)
+	audio.stop(gameOverSoundChannel)
 end
 
 local function HideCorrect()
@@ -255,6 +261,7 @@ local function NumericFieldListener( event)
 			incorrectObject.isVisible = false
 			numericTextFields.isVisible = false
 			youLoseImage.isVisible = true
+			timer.performWithDelay(3000, StopSounds)
 		end
 	end
 		event.target.text = ""

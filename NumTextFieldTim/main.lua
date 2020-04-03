@@ -109,7 +109,6 @@ local function NumericFieldListener( event)
 				pointsText.text = "Points = " .. points
 				incorrectPointsText.text = "Times Wrong = " .. incorrectPoints 
 				timer.performWithDelay(3000, HideYouWin)
-				timer.performWithDelay(3500, AskQuestion)
 			end
 
 		-- inside the else means they got it wrong

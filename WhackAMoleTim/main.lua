@@ -18,7 +18,7 @@ display.setDefault("background", 26/255, 196/255, 185/255)
 
 -- bkg sound
 local bkgSound = audio.loadSound("Sounds/bkg music.mp3")
-local bkgSoundChannel = audio.play(bkgSound)
+local bkgSoundChannel = audio.play(bkgSound, {loops = -1})
 
 -- touch sound
 local touchSound = audio.loadSound("Sounds/touch sound.mp3")
